@@ -25,7 +25,7 @@ The related library as follows :
 4. (optional) For .exe compile you can use "pyinstaller -F --clean <.py file>", this will compile the script into .exe file and later can be use for task scheduler in windows (windows only) or if you don't want to run it as .py file :)
 
 That's all, I hope this new version could ease our job as Network Engineer and cheers 🍻.
-Let me know if you facing issue, may be I could help to resolved it 😊.
+Let me know if you facing issue, maybe I could help to resolved it 😊.
 
 -- End of Readme.md --
 There's nothing after this line 😲
