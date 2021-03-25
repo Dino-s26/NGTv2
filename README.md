@@ -18,8 +18,8 @@ The related library as follows :
 
 2. Update the template file to your needs :
 - Filename for the excel source file (filename section)
-- Device purpose (crete_log function)
-- Download the excel file template and update it to your need and save the file into name you want and update it on filename section of the .py file.
+- Device purpose (create_log function)
+- Download the excel file template and update it to your need and save the file into name you want and update it on filename section of the .py file, aslo put the file within the .py script for convinience.
 
 3. Run the .py file :) 
 4. (optional) For .exe compile you can use "pyinstaller -F --clean <.py file>", this will compile the script into .exe file and later can be use for task scheduler in windows (windows only) or if you don't want to run it as .py file :)
