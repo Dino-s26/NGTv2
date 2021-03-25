@@ -199,5 +199,7 @@ def ssh_method():
             c_logg.write(exception+"\n")
             c_logg.close()
             pass
-
+'''
+Just to show it on terminal / cmd, if you don't need it you just need to remove it from print() function.
+'''
 print(ssh_method())
