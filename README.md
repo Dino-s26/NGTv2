@@ -4,7 +4,7 @@ The Improved version of Network Gathering Tool (NGTv1) for https://github.com/Di
 :blue_book: This new improved version has new feature such as :
 1. ++ Exception for unhandled error in previous NGTv1, that make the script stop / not working if unhandled error occured.
 2. ++ Improved clean code, better readability and separated function for better troubleshooting.
-3. ++ As the previous NGTv1 using hard coded source (separated source file for username, hostname, command, etc) that are time consuming to update related script, now introducing local database using excel file, so no need to recompile the code (unless you want to change the output filename), you just need to edit the excel file (template file provided) if there is any changes whitin your environment (ip, username, command, etc).
+3. ++ As the previous NGTv1 using hard coded source (separated source file for username, hostname, command, etc) that are time consuming to update related script, now introducing local database using excel file, so no need to recompile the code (unless you want to change the output filename), you just need to edit the excel file (template file provided) if there is any changes within your environment (ip, username, command, etc).
 4. ++ Generate log file when exception are happen to make it easy to troubleshoot.
 5. **currently still improving this version, and adding more feature to make it easier for Network Engineer usage.*
 
