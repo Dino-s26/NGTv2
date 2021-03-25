@@ -8,7 +8,7 @@ from pathlib import Path
 
 ''' Hard code source file *Recommended method '''
 filename = "x://path_to_file.xlsx" ''' *change this to your excel file '''
-''' Should you choose to di input filename manually '''
+''' Should you choose to do input filename manually '''
 #filename = input("Full path to excel file : ")
 
 def get_date():
@@ -23,7 +23,7 @@ def get_date():
 
 def create_log():
     '''
-    Create log for script for debug
+    Create log for script for debug purpose
     '''
     path = "C:/log/"
     c_log = Path(path).mkdir(parents=True, exist_ok=True)
@@ -32,7 +32,7 @@ def create_log():
 
 def output_log():
     '''
-    Create output log folder
+    Create output log folder for result of the script 
     '''
     path_output = "C:/output_log/"
     o_output = Path(path_output).mkdir(parents=True, exist_ok=True)
@@ -43,7 +43,7 @@ def g_read_credential():
     creds = wb['credentials']
     for value in creds.iter_rows(min_row=2, min_col=1, max_col=2, values_only=True):
         '''
-        for debug purpose
+        for debug purpose uncomment below command
         '''
         #print("Username : ",value[0],"\nPassword : ", value[1])
         '''Return Value of the credential '''
@@ -54,23 +54,23 @@ def ssh_method():
     ip = wb['list_ip']
     max_rw = ip.max_row
     max_cl = ip.max_column
-    ''' Debug number of ROW and COLUMN in excel '''
+    ''' for debug number of ROW and COLUMN in excel '''
     #print("ROW: ",max_rw, "COLUMN: ",max_cl)
     for value_ip in range(2, max_rw+1):
         '''
-        for debug purpose
+        for debug purpose, change the value of the column
         '''
         lip = ip.cell(row=value_ip, column=2).value
         lhost = ip.cell(row=value_ip, column=1).value
-        '''Debug list of ip to SSH in excel sheet of list_ip '''
+        ''' for debug list of ip to SSH in excel sheet of list_ip '''
         #p_ip = "ssh "+lip+"\n"
         #print(p_ip)
 
-        ''' Old iteration method '''
+        ''' Old iteration method, just for debug purpose incase the newer iteration not working '''
     #for host in ip :
         '''
         SSH activity new method to pass exception
-        so that the fault can be skipped and logg to a .log file
+        so that the fault can be skipped and logged to a .log file defined on create_log() function
         '''
         try:
             pre_conn = paramiko.SSHClient()
@@ -78,6 +78,9 @@ def ssh_method():
             pre_conn.connect(lip, port=22, username=g_read_credential()[0], password=g_read_credential()[1], allow_agent=False, timeout=10)
             print("Establishing SSH Connectiont to : ", lip)
             conn = pre_conn.invoke_shell()
+            '''
+            Change the format below for the log_name file
+            '''
             log_name = lhost + '--' + lip +"--"+ get_date()[0] + '.txt'
             done = "SSH Done for Hostname : "+lhost+", with IP : "+lip
             print(done)
@@ -95,22 +98,27 @@ def ssh_method():
             for command in cmd.iter_rows(min_row=2, max_row=max_rw, min_col=1, max_col=max_cl, values_only=True):
                 ''' debug for command defined on excel file for commands sheet '''
                 #print("command are : ",''.join(command),"\n")
-
-                ''' debug purpose for command sheet '''
+                
                 cmds = ''.join(command)+"\n"
+                ''' debug purpose for command sheet '''
                 #print(cmds)
 
                 conn.send(cmds)
                 time.sleep(5)
                 recv_buff = conn.recv(65000)
+                
                 ''' debug if the command are executed '''
                 #print(''.join(command), "Done !")
+                
                 output_file = open(os.path.join(output_log()[0],log_name), 'ab+')
                 output_file.write(recv_buff)
                 output_file.close
             conn.close()
             print ("All commands are capture and executed for :", lip,"\n")
 
+        '''
+        except timeout socket, skipped it and logged it to the log file defined
+        '''
         except socket.timeout as timout:
             exception = "SSH skip for the Host : "+lip+", Host unreachable / not available.\n"
             print(exception)
@@ -121,6 +129,9 @@ def ssh_method():
             c_logg.close()
             pass
 
+        '''
+        except invalid ip format, skipped it and logged it to the log file defined
+        '''
         except socket.gaierror as invalid_ip:
             exception = "Invalid IP Format for : "+lip+", Check your IP address again.\n"
             print(exception)
@@ -130,7 +141,10 @@ def ssh_method():
             c_logg.write(exception+"\n")
             c_logg.close()
             pass
-
+        
+        '''
+        except invalid ip format by unicode, skipped it and logged it to the log file defined
+        '''
         except UnicodeError as invalid_ip_format:
             exception = "Invalid IP Format for : "+lip+", Check your IP address again.\n"
             print(exception)
@@ -141,6 +155,9 @@ def ssh_method():
             c_logg.close()
             pass
 
+        '''
+        except authentication problem, skipped it and logged it to the log file defined
+        '''
         except paramiko.ssh_exception.AuthenticationException as invalid_auth:
             exception = "Invalid Authentication for : "+lipt+", Check Username and/or Password !\n"
             print(exception)
@@ -153,7 +170,8 @@ def ssh_method():
 
         '''
         The exception below is used to skip any TypeError traceback,
-        \nthis should not be used in production, just for troubleshooting purpose.
+        \n this should not be used in production, just for troubleshooting purpose.
+        \n so leave it on comment 
         '''
 
         #except TypeError as t_error:
